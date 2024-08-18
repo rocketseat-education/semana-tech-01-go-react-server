@@ -81,8 +81,8 @@ func NewHandler(q *pgstore.Queries) http.Handler {
 
 const (
 	MessageKindMessageCreated          = "message_created"
-	MessageKindMessageRactionIncreased = "message_reaction_increased"
-	MessageKindMessageRactionDecreased = "message_reaction_decreased"
+	MessageKindMessageReactionIncreased = "message_reaction_increased"
+	MessageKindMessageReactionDecreased = "message_reaction_decreased"
 	MessageKindMessageAnswered         = "message_answered"
 )
 
@@ -321,7 +321,7 @@ func (h apiHandler) handleReactToMessage(w http.ResponseWriter, r *http.Request)
 	sendJSON(w, response{Count: count})
 
 	go h.notifyClients(Message{
-		Kind:   MessageKindMessageRactionIncreased,
+		Kind:   MessageKindMessageReactionIncreased,
 		RoomID: rawRoomID,
 		Value: MessageMessageReactionIncreased{
 			ID:    rawID,
@@ -357,7 +357,7 @@ func (h apiHandler) handleRemoveReactFromMessage(w http.ResponseWriter, r *http.
 	sendJSON(w, response{Count: count})
 
 	go h.notifyClients(Message{
-		Kind:   MessageKindMessageRactionDecreased,
+		Kind:   MessageKindMessageReactionDecreased,
 		RoomID: rawRoomID,
 		Value: MessageMessageReactionDecreased{
 			ID:    rawID,
